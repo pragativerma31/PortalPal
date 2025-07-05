@@ -1,13 +1,11 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Calculator, AlertTriangle, CheckCircle } from "lucide-react"
 import { AttendanceCalculatorModal } from "./attendance-calculator-modal"
-import { on } from "events"
 
 interface AttendancePageProps {
   userName: string

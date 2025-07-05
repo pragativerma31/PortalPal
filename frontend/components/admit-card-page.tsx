@@ -43,9 +43,9 @@ export function AdmitCardPage({ userName, onBack }: AdmitCardPageProps) {
 
               {/* Message */}
               <div className="space-y-4">
-                <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-800">Admit Card Information</h2>
+                <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold text-slate-800">Hello, {userName}!</h2>
                 <p className="text-base lg:text-lg xl:text-xl text-slate-600 leading-relaxed">
-                  Admit card will be available during exam season.
+                  Your admit card will be available during exam season.
                 </p>
               </div>
 

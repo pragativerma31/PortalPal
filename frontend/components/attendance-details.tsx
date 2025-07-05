@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Calendar, CheckCircle, XCircle, Clock, Coffee } from "lucide-react"
+import { LucideIcon } from "lucide-react"
 
 interface Subject {
   name: string;
@@ -36,7 +37,7 @@ export function AttendanceDetail({ subject, onBack }: AttendanceDetailProps) {
     code: string;
     status: string;
     color: string;
-    icon: any;
+    icon: LucideIcon;
   }
 
   // Generate attendance data with dynamic status handling
@@ -47,7 +48,7 @@ export function AttendanceDetail({ subject, onBack }: AttendanceDetailProps) {
     }
 
     // Handle special codes
-    const specialCodes: { [key: string]: any } = {
+    const specialCodes: { [key: string]: { status: string; color: string; icon: LucideIcon } } = {
       "CS": { status: "Class Suspended", color: "bg-orange-100 text-orange-800", icon: Coffee },
       "GH": { status: "Gazetted Holiday", color: "bg-purple-100 text-purple-800", icon: Coffee },
       "CR": { status: "Class Rescheduled", color: "bg-blue-100 text-blue-800", icon: Clock },
@@ -148,7 +149,7 @@ export function AttendanceDetail({ subject, onBack }: AttendanceDetailProps) {
 
 
 
-  const getStatusIcon = (IconComponent: any, color: string) => {
+  const getStatusIcon = (IconComponent: LucideIcon, color: string) => {
     return (
       <IconComponent
         className={`h-4 w-4 ${
@@ -302,7 +303,7 @@ export function AttendanceDetail({ subject, onBack }: AttendanceDetailProps) {
               ) : (
                 (() => {
                   // Group attendance data by year-month and sort in descending order (latest first)
-                  const groupedByMonth = attendanceData.reduce((acc: any, item: DailyAttendanceRecord) => {
+                  const groupedByMonth = attendanceData.reduce((acc: { [key: string]: DailyAttendanceRecord[] }, item: DailyAttendanceRecord) => {
                     const year = item.date.getFullYear();
                     const month = item.date.getMonth();
                     const key = `${year}-${month}`;

@@ -9,7 +9,7 @@ import { ArrowLeft, ChevronDown, ChevronUp, GraduationCap, BookOpen, Award } fro
 interface CgpaPageProps {
   userName: string
   onBack: () => void
-  transcriptData?: any[]
+  transcriptData?: SemesterData[]
 }
 
 interface Subject {
@@ -96,7 +96,7 @@ export function CgpaPage({ userName, onBack, transcriptData = [] }: CgpaPageProp
         <div className="flex items-start justify-between px-2">
           <div className="space-y-1 flex-1 min-w-0">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-800 tracking-tight">
-              CGPA Summary
+              {userName}&apos;s CGPA Summary
             </h1>
             <p className="text-base lg:text-lg xl:text-xl text-slate-600">
               Track your academic performance across all semesters

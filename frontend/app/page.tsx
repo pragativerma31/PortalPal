@@ -14,13 +14,6 @@ export default function PortalPal() {
   const [currentScreen, setCurrentScreen] = useState<
     "login" | "loading" | "dashboard" | "attendance" | "cgpa" | "admitcard" | "attendanceDetail"
   >("login")
-  const [selectedSubject, setSelectedSubject] = useState<any | null>(null)
-  const [attendanceData, setAttendanceData] = useState<any[]>([])
-  const [transcriptData, setTranscriptData] = useState<any[]>([])
-
-  const [loadingMessage, setLoadingMessage] = useState("")
-  const [userData, setUserData] = useState<{ rollNumber: string; name: string ; sem:string } | null>(null)
-
   interface DailyLogEntry {
     date: string; // "Jan-01"
     status: string; // "1", "0", "CS", etc.
@@ -36,9 +29,50 @@ export default function PortalPal() {
     dailyLog: DailyLogEntry[];
   }
 
+  interface SubjectAttendance {
+    id: string
+    name: string
+    totalDays: number
+    totalPresence: number
+    totalAbsence: number
+    attendancePercentage: number
+    dailyLog: DailyLogEntry[]
+  }
 
-  const handleSubjectSelect = (subject: any) => {
-    setSelectedSubject(subject)
+  interface Subject {
+    name: string;
+    code: string;
+    attendance: number;
+    present: number;
+    absent: number;
+    total: number;
+    dailyLog?: DailyLogEntry[];
+  }
+
+  interface TranscriptEntry {
+    [key: string]: unknown // For flexibility with transcript data structure
+  }
+
+  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null)
+  const [attendanceData, setAttendanceData] = useState<SubjectAttendance[]>([])
+  const [transcriptData, setTranscriptData] = useState<TranscriptEntry[]>([])
+
+  const [loadingMessage, setLoadingMessage] = useState("")
+  const [userData, setUserData] = useState<{ rollNumber: string; name: string ; sem:string } | null>(null)
+
+
+  const handleSubjectSelect = (subject: SubjectAttendance) => {
+    // Convert SubjectAttendance to Subject format for AttendanceDetail
+    const convertedSubject: Subject = {
+      name: subject.name,
+      code: subject.id,
+      attendance: subject.attendancePercentage,
+      present: subject.totalPresence,
+      absent: subject.totalAbsence,
+      total: subject.totalDays,
+      dailyLog: subject.dailyLog
+    }
+    setSelectedSubject(convertedSubject)
     setCurrentScreen("attendanceDetail")
   }
 
@@ -155,8 +189,9 @@ export default function PortalPal() {
       setAttendanceData(transformed)
       // ⬅️ backend returns attendance as 'data'
       setCurrentScreen("attendance")
-    } catch (error: any) {
-      alert("Attendance fetch failed: " + error.message)
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'
+      alert("Attendance fetch failed: " + errorMessage)
       setCurrentScreen("dashboard")
     }
   }
@@ -186,8 +221,9 @@ export default function PortalPal() {
       setTranscriptData(data.data)
       console.log("Transcript data:", data.data)
       setCurrentScreen("cgpa")
-    } catch (error: any) {
-      alert("Transcript fetch failed: " + error.message)
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'
+      alert("Transcript fetch failed: " + errorMessage)
       setCurrentScreen("dashboard")
     }
   }
@@ -225,8 +261,9 @@ export default function PortalPal() {
 
       setUserData({ rollNumber, name: data.name , sem:data.sem }) // ← Now using the real name from backend
       setCurrentScreen("dashboard")
-    } catch (error: any) {
-      alert("Login failed: " + error.message)
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'
+      alert("Login failed: " + errorMessage)
       setCurrentScreen("login")
     }
   }

@@ -12,7 +12,7 @@ import { on } from "events"
 interface AttendancePageProps {
   userName: string
   onBack: () => void
-  onSubjectSelect: (subject: any) => void
+  onSubjectSelect: (subject: SubjectAttendance) => void
   attendanceData?: SubjectAttendance[]// Optional prop to pass attendance data
 }
 
@@ -81,19 +81,8 @@ export function AttendancePage({ onSubjectSelect, onBack,attendanceData=[] }: At
     console.log("handleSubjectClick - original subject:", subject);
     console.log("handleSubjectClick - subject.dailyLog:", subject.dailyLog);
     
-    const subjectForDetail = {
-      name: subject.name,
-      code: subject.id,
-      present: subject.totalPresence,
-      absent: subject.totalAbsence,
-      total: subject.totalDays,
-      attendance: subject.attendancePercentage,
-      dailyLog: subject.dailyLog, // 👈 ADD THIS
-    };
-    
-    console.log("handleSubjectClick - passing to detail:", subjectForDetail);
-    
-    onSubjectSelect(subjectForDetail)
+    // Pass the original subject to parent, let parent handle conversion
+    onSubjectSelect(subject)
 
     // router.push(`/attendanceDetail/${subject.id}`) // Navigate to the attendance detail page
   }

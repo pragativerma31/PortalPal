@@ -29,7 +29,7 @@ export function CaptchaErrorModal({ isOpen, onRetry, message }: CaptchaErrorModa
             </p>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-blue-800">
-                <span className="font-semibold">🔬 We're improving!</span><br />
+                <span className="font-semibold">🔬 We&apos;re improving!</span><br />
                 Our AI models are continuously learning to better predict CAPTCHAs. 
                 Thank you for your patience.
               </p>

@@ -3,6 +3,7 @@
 # import os
 # import csv
 # import shutil
+import os
 import numpy as np
 from PIL import Image
 from keras.models import load_model
@@ -18,9 +19,9 @@ from Backend.core.config import FRAME_BANNER
 CHARACTER_SET = "0123456789"
 NUM_CLASSES = len(CHARACTER_SET)
 
-# Load the trained model (ensure this path is correct)
-MODEL_PATH = r"C:\python\nsut attendance scrapper\Backend\controllers\model\captcha_model.keras"
-model = load_model(MODEL_PATH,compile=False);
+# Load the trained model with relative path
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "model", "captcha_model.keras")
+model = load_model(MODEL_PATH, compile=False)
 
 
 # DATASET_FOLDER = r"C:\python\automatic dataset collection\captcha dataset"   # Update this if needed

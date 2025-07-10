@@ -49,21 +49,41 @@ export default function PortalPal() {
     dailyLog?: DailyLogEntry[];
   }
 
-  interface TranscriptEntry {
-    [key: string]: unknown // For flexibility with transcript data structure
+  interface Subject {
+    paper_name: string
+    credit: string
+    grade_letter: string
+    grade_point: string
+    credit_points: string
   }
 
-  const [selectedSubject, setSelectedSubject] = useState<Subject | null>(null)
+  interface SemesterData {
+    semester: string
+    SGPA: string
+    subjects: Subject[]
+  }
+
+  interface AttendanceSubject {
+    name: string;
+    code: string;
+    attendance: number;
+    present: number;
+    absent: number;
+    total: number;
+    dailyLog?: DailyLogEntry[];
+  }
+
+  const [selectedSubject, setSelectedSubject] = useState<AttendanceSubject | null>(null)
   const [attendanceData, setAttendanceData] = useState<SubjectAttendance[]>([])
-  const [transcriptData, setTranscriptData] = useState<TranscriptEntry[]>([])
+  const [transcriptData, setTranscriptData] = useState<SemesterData[]>([])
 
   const [loadingMessage, setLoadingMessage] = useState("")
   const [userData, setUserData] = useState<{ rollNumber: string; name: string ; sem:string } | null>(null)
 
 
   const handleSubjectSelect = (subject: SubjectAttendance) => {
-    // Convert SubjectAttendance to Subject format for AttendanceDetail
-    const convertedSubject: Subject = {
+    // Convert SubjectAttendance to AttendanceSubject format for AttendanceDetail
+    const convertedSubject: AttendanceSubject = {
       name: subject.name,
       code: subject.id,
       attendance: subject.attendancePercentage,
